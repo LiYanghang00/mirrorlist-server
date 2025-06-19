@@ -603,13 +603,15 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
 
     if check_for_param(&query_params, "repo") && check_for_param(&query_params, "arch") {
         let now = chrono::Utc::now();
+        let redirect_param = check_for_param(&query_params, "redirect");
         let log_msg = &format!(
-            "IP: {}; DATE: {}; COUNTRY: {}; REPO: {}; ARCH: {}\n",
+            "IP: {}; DATE: {}; COUNTRY: {}; REPO: {}; ARCH: {}; REDIRECT: {}\n",
             client_ip,
             &now.format("%Y-%m-%d").to_string(),
             client_country,
             get_param(&query_params, "repo"),
-            get_param(&query_params, "arch")
+            get_param(&query_params, "arch"),
+            redirect_param
         );
         p.log_file.write_all(log_msg.as_bytes()).unwrap();
         p.log_file.flush().unwrap();
