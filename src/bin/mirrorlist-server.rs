@@ -831,7 +831,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         );
     }
 
-    if let Some(hosts_and_urls) = &hosts_and_urls_opt {
+    if let Some(hosts_and_urls_opt) = &hosts_and_urls {
         let mirror_list: Vec<String> = hosts_and_urls.iter()
             .flat_map(|(_, urls)| urls.iter().cloned())
             .collect();
