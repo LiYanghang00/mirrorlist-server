@@ -831,6 +831,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         );
     }
 
+    let redirect_param = check_for_param(&query_params, "redirect");
     let mirror_list: Vec<String> = hosts_and_urls
         .iter()
         .flat_map(|(_, urls)| urls.iter().cloned())
