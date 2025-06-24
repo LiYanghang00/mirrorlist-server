@@ -23,6 +23,7 @@ COPY --from=BUILDER /src/mirrorlist-server/start.sh /opt/app/start.sh
 COPY --from=BUILDER /src/mirrorlist-server/config /opt/app/config
 COPY --from=BUILDER /src/mirrorlist-server/target/release/mirrorlist-server /opt/app/mirrorlist-server
 COPY --from=BUILDER /src/mirrorlist-server/target/release/generate-mirrorlist-cache /opt/app/generate-mirrorlist-cache
+COPY --from=BUILDER /src/mirrorlist-server/protos/mirrorlist_cache.proto /opt/app/config/mirrorlist_cache.proto
 RUN dnf install -y libpq-devel
 
 ENTRYPOINT ["/opt/app/start.sh"]
