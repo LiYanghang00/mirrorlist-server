@@ -362,6 +362,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
             query_params.insert(elements[0], elements[1]);
         }
     }
+    println!("{:?}", query_params);
 
 
     if !((check_for_param(&query_params, "repo") && check_for_param(&query_params, "arch"))
