@@ -432,6 +432,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         if find_in_string_bool_map(p.mirrorlist.get_DisabledRepositoryCache(), &repo) {
             return http_response(metalink, "repo disabled".to_string(), StatusCode::OK);
         }
+        println!("{}: {}", repo, arch);
         let key = find_in_string_string_map(
             p.mirrorlist.get_RepoArchToDirectoryName(),
             &format!("{}+{}", repo, arch),
