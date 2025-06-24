@@ -848,7 +848,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         "CLIENT_IP: {}; REDIRECT: {}; CLIENT_COUNTRY: {}; RETURNED_MIRRORS: [{}]\n",
         client_ip,
         redirect_param,
-        client_country,
+        client_country.to_string(),
         mirror_list.join(", ")
     );
     p.log_file.write_all(mirror_log_msg.as_bytes()).unwrap();
