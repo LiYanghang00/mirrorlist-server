@@ -443,6 +443,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
                 repos.push(e.get_key().to_string());
             }
             repos.sort();
+            println!("repo list: {:?}", repos);
             let mut repo_information = String::from(&header);
             repo_information.push_str("error: invalid repo or arch\n");
             repo_information.push_str("# following repositories are available:\n");
