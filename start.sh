@@ -35,46 +35,10 @@ while true
 do
     log "start server!!!"
 
-    ./mirrorlist-server --listen 0.0.0.0 -c ./config/mirrorlist_cache.proto -g ./config/global_netblocks.txt --log ./mirrorlist-server.log --cccsv ./config/country_continent.csv --geoip ./config/GeoLite2-Country.mmdb &
+    ./mirrorlist-server --listen 0.0.0.0 -c ./config1/mirrorlist_cache.proto -g ./config/global_netblocks.txt --log ./mirrorlist-server.log --cccsv ./config/country_continent.csv --geoip ./config/GeoLite2-Country.mmdb &
 
     sleep 5
 
     pn=$(process_num)
     test -z "$pn" && continue
-
-    sleep 3600
-
-    while true
-    do
-        gen_proto
-
-        if [ $? -eq 0 ]; then
-            v=$(proto_checksum)
-
-            log "check checksum, old=$checksum, new=$v"
-
-            if [ -n "$v" -a "$v" != "$checksum" ]; then
-                log "save new checksum"
-
-                checksum=$v
-                break
-            fi
-        else
-            log "gen proto failed"
-        fi
-
-        sleep 60
-    done
-
-    while true
-    do
-        pn=$(process_num)
-        test -z "$pn" && break
-
-        kill -9 $pn
-
-        log "kill mirrorlist-server: $pn"
-
-        sleep 1
-    done
 done
