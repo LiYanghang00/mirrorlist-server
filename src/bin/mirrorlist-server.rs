@@ -1280,7 +1280,7 @@ async fn main() {
             process::exit(1)
         }
     });
-    println!("Loaded {} mirrors", mirrorlist.get_Mirrors().len());
+    println!("Loaded {} mirrors", mirrorlist.len());
 
     if let Some(t) = chrono::NaiveDateTime::from_timestamp_opt(mirrorlist.get_Time() as i64, 0) {
         info!("Database creation time {} ({}) ", t, &mirrorlist.get_Time());
