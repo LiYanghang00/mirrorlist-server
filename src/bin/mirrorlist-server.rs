@@ -337,6 +337,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
     let mut response = Response::new(Body::empty());
 
     let metalink = req.uri().path().ends_with("/metalink");
+    println!("{}: {}", req.method(), req.uri().path());
 
     // Return 404 for everything not ending in mirrorlist or metalink
     if !req.uri().path().ends_with("/mirrorlist") && !metalink {
@@ -361,6 +362,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
             query_params.insert(elements[0], elements[1]);
         }
     }
+
 
     if !((check_for_param(&query_params, "repo") && check_for_param(&query_params, "arch"))
         || check_for_param(&query_params, "path"))
