@@ -383,6 +383,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
     let cache: &MirrorListCacheType;
     let mirrorlist_caches = &p.mirrorlist.get_MirrorListCache();
 
+    print!("mirrorlist_caches: {:#?}\n", mirrorlist_caches);
     if check_for_param(&query_params, "path") {
         let mut path = get_param(&query_params, "path");
         path = path.trim_matches('/').to_string();
