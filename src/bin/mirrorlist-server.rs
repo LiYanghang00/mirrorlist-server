@@ -1326,6 +1326,7 @@ async fn main() {
         let lf = log_file.clone();
         async move {
             Ok::<_, Infallible>(service_fn(move |req| {
+                println!("Request from {}", &remote_addr);
                 let response = do_mirrorlist(
                     req,
                     &mut DoMirrorlist {
