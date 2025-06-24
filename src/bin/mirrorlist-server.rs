@@ -845,9 +845,10 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
 
     // 镜像站日志（添加 redirect 参数状态）
     let mirror_log_msg = format!(
-        "CLIENT_IP: {}; REDIRECT: {}; RETURNED_MIRRORS: [{}]\n",
+        "CLIENT_IP: {}; REDIRECT: {}; CLIENT_COUNTRY: {}; RETURNED_MIRRORS: [{}]\n",
         client_ip,
         redirect_param,
+        client_country,
         mirror_list.join(", ")
     );
     p.log_file.write_all(mirror_log_msg.as_bytes()).unwrap();
