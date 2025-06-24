@@ -5,7 +5,7 @@ set -e
 cd $(dirname $0)
 
 cfg=$1
-proto=./config1/mirrorlist_cache.proto
+proto=./config/mirrorlist_cache.proto
 
 gen_proto() {
     ./generate-mirrorlist-cache -c $cfg -o $proto
