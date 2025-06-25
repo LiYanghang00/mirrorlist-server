@@ -837,18 +837,6 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         );
     }
 
-    let redirect_param = check_for_param(&query_params, "redirect");
-    let mirror_list: Vec<String> = hosts_and_urls
-        .iter()
-        .flat_map(|(_, urls)| urls.iter().cloned())
-        .collect();
-
-    // 镜像站日志（添加 redirect 参数状态）
-    let mirror_log_msg = format!(
-        "CLIENT_IP: {};  RETURNED_MIRRORS: [{}]\n",
-        client_ip,
-        mirror_list.join(", ")
-    );
     p.log_file.write_all(mirror_log_msg.as_bytes()).unwrap();
     p.log_file.flush().unwrap();
 
@@ -907,6 +895,14 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
             .headers_mut()
             .insert(CONTENT_TYPE, HeaderValue::from_static("text/plain"));
     }
+
+    let response_log_msg = format!(
+        "CLIENT_IP: {};  Body: [{}]\n",
+        client_ip,
+        response.body().to_string()
+    );
+    p.log_file.write_all(response_log_msg.as_bytes()).unwrap();
+    p.log_file.flush().unwrap();
 
     response
 }
