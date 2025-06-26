@@ -1139,8 +1139,21 @@ fn print_usage(program: &str, opts: Options) {
 
 #[tokio::main]
 async fn main() {
-    pretty_env_logger::init();
+    pretty_env_logger::formatted_timed_builder()
+        .format(|buf, record| {
+            use std::io::Write;
+            let timestamp = buf.timestamp_millis();
+            let level = record.level().to_string().to_uppercase();
 
+            writeln!(
+                buf,
+                "[{}] {}  {}",
+                timestamp,
+                level,
+                record.args()
+            )
+        })
+        .init();
     // This is the minimum number of mirrors which should be returned
     let mut minimum: usize = 5;
     let mut geoip2_db = String::from("/usr/share/GeoIP/GeoLite2-Country.mmdb");
