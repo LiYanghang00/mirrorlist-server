@@ -837,19 +837,18 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         );
     }
 
-    if check_for_param(&query_params, "repo") && check_for_param(&query_params, "arch") {
-        let mirror_list: Vec<String> = hosts_and_urls
-            .iter()
-            .flat_map(|(_, urls)| urls.iter().cloned())
-            .collect();
-        let mirror_log_msg = format!(
-            "CLIENT_IP: {};  RETURNED_MIRRORS: [{}]\n",
-            client_ip,
-            mirror_list.join(", ")
-        );
-        p.log_file.write_all(mirror_log_msg.as_bytes()).unwrap();
-        p.log_file.flush().unwrap();
-    }
+    let mirror_list: Vec<String> = hosts_and_urls
+        .iter()
+        .flat_map(|(_, urls)| urls.iter().cloned())
+        .collect();
+
+    let mirror_log_msg = format!(
+        "CLIENT_IP: {};  RETURNED_MIRRORS: [{}]\n",
+        client_ip,
+        mirror_list.join(", ")
+    );
+    p.log_file.write_all(mirror_log_msg.as_bytes()).unwrap();
+    p.log_file.flush().unwrap();
 
     if metalink {
         let (code, doc) = do_metalink(cache, p.mirrorlist, dir, file, &hosts_and_urls);
@@ -1139,27 +1138,8 @@ fn print_usage(program: &str, opts: Options) {
 
 #[tokio::main]
 async fn main() {
-    pretty_env_logger::formatted_timed_builder()
-        .format(|buf, record| {
-            use std::io::Write;
-            let timestamp = buf.timestamp_millis();
-            let level = record.level().to_string().to_uppercase();
-            let module = record.module_path().unwrap_or("unknown");
-            let line = record.line().unwrap_or(0);
+    pretty_env_logger::init();
 
-            writeln!(
-                buf,
-                "[{}] {} [{}:{}] {}",
-                timestamp,
-                level,
-                module,
-                line,
-                record.args()
-            )
-        })
-        .filter_level(log::LevelFilter::Info)
-        .init();
-    
     // This is the minimum number of mirrors which should be returned
     let mut minimum: usize = 5;
     let mut geoip2_db = String::from("/usr/share/GeoIP/GeoLite2-Country.mmdb");
