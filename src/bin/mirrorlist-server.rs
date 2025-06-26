@@ -1153,7 +1153,6 @@ async fn main() {
                 record.args()
             )
         }).filter_level(log::LevelFilter::Info)
-        .parse_default_env()
         .init();
     // This is the minimum number of mirrors which should be returned
     let mut minimum: usize = 5;
