@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 set -e
+export RUST_LOG=info
 
 cd $(dirname $0)
 
@@ -41,4 +42,29 @@ do
 
     pn=$(process_num)
     test -z "$pn" && continue
+
+    sleep 3600
+
+    while true
+    do
+        gen_proto
+
+        if [ $? -eq 0 ]; then
+            v=$(proto_checksum)
+
+            log "check checksum, old=$checksum, new=$v"
+
+            if [ -n "$v" -a "$v" != "$checksum" ]; then
+                log "save new checksum"
+
+                checksum=$v
+                break
+            fi
+        else
+            log "gen proto failed"
+        fi
+
+        sleep 60
+    done
+
 done
