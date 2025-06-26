@@ -1144,16 +1144,22 @@ async fn main() {
             use std::io::Write;
             let timestamp = buf.timestamp_millis();
             let level = record.level().to_string().to_uppercase();
+            let module = record.module_path().unwrap_or("unknown");
+            let line = record.line().unwrap_or(0);
 
             writeln!(
                 buf,
-                "[{}] {}  {}",
+                "[{}] {} [{}:{}] {}",
                 timestamp,
                 level,
+                module,
+                line,
                 record.args()
             )
-        }).filter_level(log::LevelFilter::Info)
+        })
+        .filter_level(log::LevelFilter::Info)
         .init();
+    
     // This is the minimum number of mirrors which should be returned
     let mut minimum: usize = 5;
     let mut geoip2_db = String::from("/usr/share/GeoIP/GeoLite2-Country.mmdb");
