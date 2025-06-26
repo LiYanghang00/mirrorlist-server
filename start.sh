@@ -3,7 +3,7 @@
 set -e
 
 cd $(dirname $0)
-
+export RUST_LOG=info
 cfg=$1
 proto=./config/mirrorlist_cache.proto
 
