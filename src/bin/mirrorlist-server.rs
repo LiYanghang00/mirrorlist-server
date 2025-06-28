@@ -612,7 +612,7 @@ fn do_mirrorlist(req: Request<Body>, p: &mut DoMirrorlist) -> Response<Body> {
         let log_msg = &format!(
             "IP: {}; DATE: {}; COUNTRY: {}; REPO: {}; ARCH: {}; REDIRECT: {}\n",
             client_ip,
-            &now.format("%Y-%m-%d").to_string(),
+            &now.format("%Y-%m-%d %H:%M:%S").to_string(),
             client_country,
             get_param(&query_params, "repo"),
             get_param(&query_params, "arch"),
