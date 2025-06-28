@@ -18,7 +18,7 @@ use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Request, Response, Server, StatusCode};
 use ipnet::IpNet;
 use itertools::Itertools;
-use log::{error, info, debug};
+use log::{error, info};
 use maxminddb::{geoip2, Reader};
 use protobuf::parse_from_reader;
 use rand::distributions::Distribution;
