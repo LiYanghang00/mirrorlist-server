@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 set -e
-export RUST_LOG=info
+export RUST_LOG=error
 
 cd $(dirname $0)
 
