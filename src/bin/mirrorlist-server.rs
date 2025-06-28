@@ -1155,7 +1155,7 @@ async fn main() {
                 record.args()
             )
         })
-    .filter_level(log::LevelFilter::Info)
+    .filter_level(log::LevelFilter::Error)
     .init();
 
     // This is the minimum number of mirrors which should be returned
